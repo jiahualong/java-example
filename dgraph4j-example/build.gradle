@@ -1,0 +1,27 @@
+plugins {
+    id 'java'
+
+    id 'application'
+}
+
+repositories {
+    mavenLocal()
+    maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+    maven { url "http://repo.spring.io/release" }
+    maven { url "http://repo.spring.io/libs-release" }
+    maven { url "http://repo.spring.io/plugins-release/" }
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+
+    // This dependency is found on compile classpath of this component and consumers.
+    implementation 'io.dgraph:dgraph4j:1.7.3'
+
+    // Use JUnit test framework
+    testImplementation 'junit:junit:4.12'
+}
+
+// Define the main class for the application
+mainClassName = 'cc.stan.example.dgraph4j.App'

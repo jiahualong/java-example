@@ -1,0 +1,27 @@
+plugins {
+	id 'org.springframework.boot' version '2.1.5.RELEASE'
+	id 'java'
+}
+
+apply plugin: 'io.spring.dependency-management'
+
+group = 'cc.stan.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+repositories {
+        mavenLocal()
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+        maven { url "http://repo.spring.io/release" }
+        maven { url "http://repo.spring.io/libs-release" }
+        maven { url "http://repo.spring.io/plugins-release/" }
+        mavenCentral()
+        jcenter()
+
+}
+
+dependencies {
+    compileOnly 'org.projectlombok:lombok:1.16.18'
+    implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}

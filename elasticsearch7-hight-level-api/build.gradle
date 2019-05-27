@@ -1,0 +1,36 @@
+plugins {
+    id 'org.springframework.boot' version '2.1.5.RELEASE'
+    id 'java'
+}
+
+apply plugin: 'io.spring.dependency-management'
+
+group = 'cc.stan.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+repositories {
+    mavenLocal()
+    maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+    maven { url "http://repo.spring.io/release" }
+    maven { url "http://repo.spring.io/libs-release" }
+    maven { url "http://repo.spring.io/plugins-release/" }
+    mavenCentral()
+    jcenter()
+
+}
+
+dependencies {
+
+    implementation 'org.springframework.boot:spring-boot-starter'
+
+    compile 'org.elasticsearch.client:elasticsearch-rest-high-level-client:7.1.0'
+    compile 'org.elasticsearch:elasticsearch:7.1.0'
+    compileOnly 'org.projectlombok:lombok:1.16.18'
+
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.9.9'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.9'
+
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}

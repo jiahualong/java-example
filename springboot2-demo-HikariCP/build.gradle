@@ -1,0 +1,27 @@
+plugins {
+    id 'java'
+}
+
+dependencies {
+    compile 'org.springframework.boot:spring-boot-starter:2.0.2.RELEASE'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '2.0.2.RELEASE'
+    compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.11'
+    compile group: 'com.zaxxer', name: 'HikariCP', version: '3.1.0'
+
+    compile group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.0'
+
+
+    testCompile 'org.springframework.boot:spring-boot-starter-test:2.0.2.RELEASE'
+    testImplementation 'junit:junit:4.12'
+}
+sourceCompatibility = 10
+targetCompatibility = 10
+
+repositories {
+    mavenLocal()
+    maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+    maven { url "http://repo.spring.io/milestone/" }
+    maven { url "https://plugins.gradle.org/m2/" }
+    mavenCentral()
+    jcenter()
+}

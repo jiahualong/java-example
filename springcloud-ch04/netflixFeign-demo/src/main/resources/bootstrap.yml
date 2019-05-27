@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: netflixFeign-demo
+  profiles:
+    active: dev
+  cloud:
+    config:
+      uri: http://localhost:7000

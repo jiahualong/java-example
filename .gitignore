@@ -1,0 +1,46 @@
+# macos
+.DS_Store
+
+# vim
+*~
+*.swp
+
+# gralde
+.gradle/
+.gradletasknamecache
+gradle/
+gradlew
+gradlew.bat
+
+# idea
+.idea/
+out/
+build/
+dataSources/
+.ideaDataSources/
+*.ipr
+*.iws
+*.iml
+
+# maven
+target/
+
+# eclipse
+.settings/*
+.project
+.classpath
+
+
+# svn
+.svn/
+.svn/*
+*/.svn/*
+
+# playframework ignore file 
+#logs
+#project/project
+#project/target
+#target
+#tmp
+#dist
+#.cache

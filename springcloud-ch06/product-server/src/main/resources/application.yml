@@ -1,0 +1,8 @@
+eureka:
+  instance:
+    prefer-ip-address: true #注册服务的IP而不是服务器名
+  client:
+    register-with-eureka: true # 向Eureka注册服务
+    fetch-registry: true # 拉取注册表的本地副本
+    service-url:
+      defaultZone: http://localhost:8761/eureka/ #Eureka服务位置

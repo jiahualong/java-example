@@ -1,0 +1,12 @@
+#spring:
+#  data:
+#    elasticsearch:
+#      cluster-nodes: 0.0.0.0:9200
+#      cluster-nodes: 10.1.1.176:9200
+
+elasticsearch:
+  hostName: 127.0.0.1
+  rest-port: 9200
+  index: blog
+  type: _doc
+

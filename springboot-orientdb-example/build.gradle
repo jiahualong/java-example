@@ -1,0 +1,33 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+        mavenCentral()
+        jcenter()
+
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'idea'
+
+
+group = 'cc.stan.example'
+
+sourceCompatibility = 12
+targetCompatibility = 12
+
+repositories {
+    mavenLocal()
+    maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+
+    compile group: 'com.orientechnologies:orientdb-client:3.0.18'
+
+    testCompile group: 'org.junit.jupiter:junit-jupiter-api:5.4.2'
+
+}

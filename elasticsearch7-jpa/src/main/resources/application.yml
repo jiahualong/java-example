@@ -1,0 +1,5 @@
+spring:
+  data:
+    elasticsearch:
+      cluster-nodes: 0.0.0.0:9200
+#      cluster-nodes: 10.1.1.176:9200

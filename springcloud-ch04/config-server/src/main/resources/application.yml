@@ -1,0 +1,29 @@
+server:
+  port: 7000
+
+# 使用git存储配置文件
+spring:
+  cloud:
+    config:
+      server:
+        encrypt:
+          enabled: true #是否在服务端解密
+        git:
+          uri: https://github.com/jiahualong/springcloud-example-config-store
+          search-paths: userservice,infoservice,ch03jpa,product-server,restTemplate-demo,netflixFeign-demo,discoveryClient-demo
+          username: clouduser
+          password: clouduserpwd
+      discovery:
+        enabled: true #允许被发现
+
+# 在file中检索配置文件
+# spring:
+#   profiles:
+#     active: native
+#   cloud:
+#     config:
+#       server:
+#         native:
+#           search-locations: file:///Users/youname/work/springcloud-example/springclound-config-server/config-store/userservice,
+#                             file:///Users/youname/work/springcloud-example/springclound-config-server/config-store/infoservice,
+#                             classpath:config/
