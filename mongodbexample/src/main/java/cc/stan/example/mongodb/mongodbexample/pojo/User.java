@@ -10,16 +10,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Accessors(chain = true)
 @Document(collection = "user")
 public class User {
-
     @Id
     private String id;
     @Indexed
     private String userName;
     private String password;
-
-    @Override
-    public String toString() {
-        return String.format("user: %s, %s, %s", id, userName, password);
-    }
 
 }

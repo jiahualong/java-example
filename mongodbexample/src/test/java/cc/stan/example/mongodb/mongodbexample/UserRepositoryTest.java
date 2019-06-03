@@ -24,10 +24,14 @@ public class UserRepositoryTest {
         User userB = new User().setId("2").setUserName("B").setPassword("password");
         User userC = new User().setId("3").setUserName("A").setPassword("password");
 
+        // save 相当于 insert or update
         userRepository.save(userA);
         userRepository.save(userB);
         userRepository.save(userC);
 
+        // insert插入时id不能相同
+        User userD = new User().setId("4").setUserName("D").setPassword("password");
+        userRepository.insert(userD);
     }
 
     @Test
