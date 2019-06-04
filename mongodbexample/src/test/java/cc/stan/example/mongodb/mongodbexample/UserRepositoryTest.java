@@ -141,6 +141,11 @@ public class UserRepositoryTest {
         System.out.println(userList);
     }
 
+    @Test
+    public void idTest() {
+
+    }
+
     //TODO: 即将要做的 https://www.baeldung.com/spring-data-mongodb-tutorial
     // 7 Annotations
 
