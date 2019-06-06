@@ -1,5 +1,6 @@
 package cc.stan.example.mongodb.mongodbexample.config;
 
+import cc.stan.example.mongodb.mongodbexample.dbref.PersonSaveMongoEventListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,4 +35,11 @@ public class MongoConfig {
 
         return converter;
     }
+
+    // 用于级联保存Mongo
+    @Bean
+    public PersonSaveMongoEventListener personSaveMongoEventListener() {
+        return new PersonSaveMongoEventListener();
+    }
+
 }
