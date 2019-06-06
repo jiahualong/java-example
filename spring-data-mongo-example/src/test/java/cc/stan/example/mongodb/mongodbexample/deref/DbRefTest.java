@@ -50,4 +50,7 @@ public class DbRefTest {
         System.out.println(personRepository.findById(1L));
     }
 
+    //https://www.baeldung.com/cascading-with-dbref-and-lifecycle-events-in-spring-data-mongodb
+    //TODO: A Generic Cascade Implementation
+
 }
