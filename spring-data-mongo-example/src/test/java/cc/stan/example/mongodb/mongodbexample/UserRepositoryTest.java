@@ -1,5 +1,6 @@
 package cc.stan.example.mongodb.mongodbexample;
 
+import cc.stan.example.mongodb.mongodbexample.dao.User2Repository;
 import cc.stan.example.mongodb.mongodbexample.dao.UserRepository;
 import cc.stan.example.mongodb.mongodbexample.pojo.User;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +19,9 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
+import java.util.stream.Stream;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringRunner.class)
@@ -30,6 +33,8 @@ public class UserRepositoryTest {
     private UserRepository userRepository;
     @Autowired
     private MongoTemplate mongoTemplate;
+    @Autowired
+    private User2Repository user2Repository;
 
     @Test
     public void addUser() {
@@ -58,8 +63,10 @@ public class UserRepositoryTest {
     public void findUseQuery() {
         User user = mongoTemplate.findOne(
                 Query.query(Criteria.where("userName").is("A")), User.class);
-        user.setUserName("Jim");
-        userRepository.save(user);
+        if(user != null ) {
+            user.setUserName("Jim");
+            userRepository.save(user);
+        }
     }
 
     @Test
@@ -68,8 +75,10 @@ public class UserRepositoryTest {
                 Query.query(Criteria.where("userName").is("A")),
                 User.class);
 
-        user.setPassword("A password");
-        mongoTemplate.save(user);
+        if(user != null ) {
+            user.setPassword("A password");
+            mongoTemplate.save(user);
+        }
         System.out.println(user);
     }
 
@@ -149,4 +158,48 @@ public class UserRepositoryTest {
     //TODO: 即将要做的 https://www.baeldung.com/spring-data-mongodb-tutorial
     // 7 Annotations
 
+
+    //TODO: async https://docs.spring.io/spring-data/mongodb/docs/current/reference/html/#repositories.query-async
+
+    @Test
+    public void async() {
+    }
+
+
+    @Test
+    public void testOptional() {
+        assertTrue(user2Repository.findByIdIs("2").isPresent());
+        assertFalse(user2Repository.findByIdIs("222").isPresent());
+    }
+
+    @Test
+    public void testStream() {
+        user2Repository.findAll(PageRequest.of(0, 2)).get().forEach(System.out::println);
+
+        try (Stream<User> userStream = user2Repository.findAll(PageRequest.of(0, 2)).get()) {
+            userStream.forEach(System.out::println);
+        }
+    }
+
+    @Test
+    public void testAsync() {
+//        assertTrue(user2Repository.findOneByUserName("2").isPresent());
+    }
+
+    //TODO:
+    //https://docs.spring.io/spring-data/mongodb/docs/current/reference/html/#repositories.query-async
+    @Test
+    public void t2() {
+
+    }
+
+    //TODO:
+    //Mongo 异步api https://mongodb.github.io/mongo-java-driver/3.5/driver-async/getting-started/quick-start/
+
+
+    //TODO;
+    //https://blog.lqdev.cn/2018/11/01/springboot/chapter-thirty-one/
+
+
 }
+
