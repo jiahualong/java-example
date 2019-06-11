@@ -63,7 +63,7 @@ public class UserRepositoryTest {
     public void findUseQuery() {
         User user = mongoTemplate.findOne(
                 Query.query(Criteria.where("userName").is("A")), User.class);
-        if(user != null ) {
+        if (user != null) {
             user.setUserName("Jim");
             userRepository.save(user);
         }
@@ -75,7 +75,7 @@ public class UserRepositoryTest {
                 Query.query(Criteria.where("userName").is("A")),
                 User.class);
 
-        if(user != null ) {
+        if (user != null) {
             user.setPassword("A password");
             mongoTemplate.save(user);
         }
@@ -150,21 +150,6 @@ public class UserRepositoryTest {
         System.out.println(userList);
     }
 
-    @Test
-    public void idTest() {
-
-    }
-
-    //TODO: 即将要做的 https://www.baeldung.com/spring-data-mongodb-tutorial
-    // 7 Annotations
-
-
-    //TODO: async https://docs.spring.io/spring-data/mongodb/docs/current/reference/html/#repositories.query-async
-
-    @Test
-    public void async() {
-    }
-
 
     @Test
     public void testOptional() {
@@ -175,31 +160,17 @@ public class UserRepositoryTest {
     @Test
     public void testStream() {
         user2Repository.findAll(PageRequest.of(0, 2)).get().forEach(System.out::println);
-
         try (Stream<User> userStream = user2Repository.findAll(PageRequest.of(0, 2)).get()) {
             userStream.forEach(System.out::println);
         }
     }
 
+    //TODO: https://docs.spring.io/spring-data/mongodb/docs/current/reference/html/#repositories.query-async
+    //TODO: https://mongodb.github.io/mongo-java-driver/3.5/driver-async/getting-started/quick-start/
+
     @Test
     public void testAsync() {
-//        assertTrue(user2Repository.findOneByUserName("2").isPresent());
     }
-
-    //TODO:
-    //https://docs.spring.io/spring-data/mongodb/docs/current/reference/html/#repositories.query-async
-    @Test
-    public void t2() {
-
-    }
-
-    //TODO:
-    //Mongo 异步api https://mongodb.github.io/mongo-java-driver/3.5/driver-async/getting-started/quick-start/
-
-
-    //TODO;
-    //https://blog.lqdev.cn/2018/11/01/springboot/chapter-thirty-one/
-
 
 }
 

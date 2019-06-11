@@ -1,5 +1,6 @@
 package cc.stan.example.mongodb.mongodbexample.pojo;
 
+import lombok.Builder;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import org.springframework.data.annotation.Id;
