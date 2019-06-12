@@ -2,8 +2,12 @@ package cc.stan.example.async;
 
 import org.junit.Test;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 import java.util.concurrent.*;
+
+import static java.util.stream.Collectors.toList;
 
 public class TestCompletableFuture {
 
@@ -85,4 +89,64 @@ public class TestCompletableFuture {
         Future<Double> price = getPriceAsyncUseFactory("shop");
         System.out.println(price.get(2, TimeUnit.SECONDS));
     }
+
+
+    class Shop {
+
+        String name;
+
+        public Shop() {
+
+        }
+
+        public Shop(String name) {
+            this.name = name;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public Double getPrice() {
+
+            Future<Double> price = getPriceAsyncUseFactory(name);
+            Double pPrice = null;
+            try {
+                pPrice = price.get(2, TimeUnit.SECONDS);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (TimeoutException e) {
+                e.printStackTrace();
+            }
+            return pPrice;
+        }
+    }
+
+    /**
+     * 依次调用5个shop 总计50810ms
+     */
+    @Test
+    public void testListShop() {
+        List<Shop> shops = Arrays.asList(
+                new Shop("shop1"),
+                new Shop("shop2"),
+                new Shop("shop3"),
+                new Shop("shop4"),
+                new Shop("shop5")
+        );
+        Long start = System.nanoTime();
+        System.out.println(
+                shops.stream().map(shop -> String.format("%s price is %.2f", shop.name, shop.getPrice()))
+                        .collect(toList())
+        );
+        System.out.println("use:" + (System.nanoTime() - start) / 1_000_000);
+    }
+
+
 }
