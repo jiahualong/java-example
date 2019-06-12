@@ -42,13 +42,9 @@ public class TestCompletableFuture {
     @Test
     public void testAsyncFunction() throws InterruptedException, ExecutionException, TimeoutException {
         long start = System.nanoTime();
-
         Future<Double> futurePrice = getPriceAsync("shop");
-
         System.out.println("f1, " + (System.nanoTime() - start) / 1_000_000);
-
         double price = futurePrice.get(2, TimeUnit.SECONDS);
-
         System.out.printf("price %.2f%n", price);
         System.out.println("f2, " + (System.nanoTime() - start) / 1_000_000);
     }
@@ -74,4 +70,19 @@ public class TestCompletableFuture {
         doubleFuture.get(2, TimeUnit.SECONDS);
     }
 
+    /**
+     * 使用CompletableFuture对象的supplayAsync工厂方法创建异步
+     *
+     * @param product
+     * @return
+     */
+    private Future<Double> getPriceAsyncUseFactory(String product) {
+        return CompletableFuture.supplyAsync(() -> calculatePrice(product));
+    }
+
+    @Test
+    public void testAsync2() throws InterruptedException, ExecutionException, TimeoutException {
+        Future<Double> price = getPriceAsyncUseFactory("shop");
+        System.out.println(price.get(2, TimeUnit.SECONDS));
+    }
 }
