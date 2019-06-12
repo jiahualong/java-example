@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.*;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
@@ -93,30 +94,26 @@ public class TestCompletableFuture {
 
     class Shop {
 
-        String name;
+        String productName;
 
-        public Shop() {
-
+        public Shop(String productName) {
+            this.productName = productName;
         }
 
-        public Shop(String name) {
-            this.name = name;
+        public String getProductName() {
+            return productName;
         }
 
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
+        public void setProductName(String productName) {
+            this.productName = productName;
         }
 
         public Double getPrice() {
 
-            Future<Double> price = getPriceAsyncUseFactory(name);
+            Future<Double> price = getPriceAsyncUseFactory(productName);
             Double pPrice = null;
             try {
-                pPrice = price.get(2, TimeUnit.SECONDS);
+                pPrice = price.get(3, TimeUnit.SECONDS);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } catch (ExecutionException e) {
@@ -134,18 +131,147 @@ public class TestCompletableFuture {
     @Test
     public void testListShop() {
         List<Shop> shops = Arrays.asList(
-                new Shop("shop1"),
-                new Shop("shop2"),
-                new Shop("shop3"),
-                new Shop("shop4"),
-                new Shop("shop5")
+                new Shop("iphone"),
+                new Shop("iphone"),
+                new Shop("iphone"),
+                new Shop("iphone"),
+                new Shop("iphone")
         );
         Long start = System.nanoTime();
         System.out.println(
-                shops.stream().map(shop -> String.format("%s price is %.2f", shop.name, shop.getPrice()))
+                shops.stream().map(shop -> String.format("%s price is %.2f", shop.productName, shop.getPrice()))
                         .collect(toList())
         );
         System.out.println("use:" + (System.nanoTime() - start) / 1_000_000);
+    }
+
+    /**
+     * 使用parallelStream 2078
+     */
+    @Test
+    public void testUseParallelStream() {
+        List<Shop> shops = Arrays.asList(
+                new Shop("iphone"),
+                new Shop("iphone"),
+                new Shop("iphone"),
+                new Shop("iphone"),
+                new Shop("iphone")
+        );
+        Long start = System.nanoTime();
+        System.out.println(
+                shops.parallelStream().map(shop -> String.format("%s price is %.2f", shop.productName, shop.getPrice()))
+                        .collect(toList())
+        );
+        System.out.println("use:" + (System.nanoTime() - start) / 1_000_000);
+
+    }
+
+    /**
+     * 顺序执行
+     * use:5104
+     */
+    @Test
+    public void testA() {
+        List<Shop> shops = Arrays.asList(
+                new Shop("iphone"),
+                new Shop("iphone"),
+                new Shop("iphone"),
+                new Shop("iphone"),
+                new Shop("iphone")
+        );
+
+        Long start = System.nanoTime();
+
+
+        List<String> result = shops.stream().map(shop -> CompletableFuture.supplyAsync(() -> String.format("%s price is %.2f", shop.getProductName(), shop.getPrice())))
+                .map(CompletableFuture::join).collect(toList());
+        System.out.println(result);
+        System.out.println("use:" + (System.nanoTime() - start) / 1_000_000);
+    }
+
+    /**
+     * 异步执行
+     * use:2097
+     */
+    @Test
+    public void testR() {
+        List<Shop> shops = Arrays.asList(
+                new Shop("iphone"),
+                new Shop("iphone"),
+                new Shop("iphone"),
+                new Shop("iphone"),
+                new Shop("iphone")
+        );
+
+        Long start = System.nanoTime();
+
+        List<CompletableFuture<String>> list = shops.stream().map(shop ->
+                CompletableFuture.supplyAsync(() -> String.format("%s price is %.2f", shop.getProductName(), shop.getPrice())))
+                .collect(toList());
+
+        List<String> result = list.stream().map(CompletableFuture::join).collect(Collectors.toList());
+
+        System.out.println(result);
+        System.out.println("use:" + (System.nanoTime() - start) / 1_000_000);
+    }
+
+    @Test
+    public void cpu() {
+        System.out.println(Runtime.getRuntime().availableProcessors());
+    }
+
+    static final Executor executor = Executors.newFixedThreadPool(Math.min(5, 100), new ThreadFactory() {
+        @Override
+        public Thread newThread(Runnable r) {
+            Thread t = new Thread(r);
+            t.setDaemon(true);
+            return t;
+        }
+    });
+
+
+    /**
+     * use:1089
+     */
+    @Test
+    public void testUseExecutor() {
+        List<Shop> shops = Arrays.asList(
+                new Shop("iphone"),
+                new Shop("iphone"),
+                new Shop("iphone"),
+                new Shop("iphone"),
+                new Shop("iphone")
+        );
+
+        Long start = System.nanoTime();
+
+        List<CompletableFuture<String>> list = shops.stream().map(shop ->
+                CompletableFuture.supplyAsync(() -> String.format("%s price is %.2f", shop.getProductName(), shop.getPrice()), executor))
+                .collect(toList());
+
+        List<String> result = list.stream().map(CompletableFuture::join).collect(Collectors.toList());
+
+        System.out.println(result);
+        System.out.println("use:" + (System.nanoTime() - start) / 1_000_000);
+    }
+
+
+    /**
+     * CompletableFuture 比 parallelStream 优点
+     * 可以对Executor进行配置，尤其是线程池大小
+     */
+    @Test
+    public void test() {
+
+        List<Shop> shops = Arrays.asList(
+                new Shop("iphone"),
+                new Shop("iphone"),
+                new Shop("iphone"),
+                new Shop("iphone"),
+                new Shop("iphone")
+        );
+
+
     }
 
 
