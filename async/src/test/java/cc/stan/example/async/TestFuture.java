@@ -4,7 +4,7 @@ import org.junit.Test;
 
 import java.util.concurrent.*;
 
-public class Test1 {
+public class TestFuture {
     /**
      * 使用Java5提供的Future接口.
      * Java 8 in action 11.1 Future interface
