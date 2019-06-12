@@ -31,12 +31,33 @@ public class TestCompletableFuture {
         //TODO: Java in action 8 getPriceAsync
     }
 
+    @Test
+    public void test2() throws InterruptedException, ExecutionException, TimeoutException {
+        Future<Double> doubleFuture = getPriceAsyncHasException("shop");
+        doubleFuture.get(2, TimeUnit.SECONDS);
+    }
+
     //异步获取futurePrice
     private Future<Double> getPriceAsync(String product) {
         CompletableFuture<Double> futurePrice = new CompletableFuture<>();
         new Thread(() -> {
             double price = calculatePrice(product);
             futurePrice.complete(price);
+        }).start();
+        return futurePrice;
+    }
+
+    //异步获取futurePrice，会抛出异常
+    private Future<Double> getPriceAsyncHasException(String product) {
+        CompletableFuture<Double> futurePrice = new CompletableFuture<>();
+        new Thread(() -> {
+            try {
+                double price = calculatePrice(product);
+                throw new RuntimeException("不可用");
+                //futurePrice.complete(price);
+            } catch (Exception ex) {
+                futurePrice.completeExceptionally(ex);
+            }
         }).start();
         return futurePrice;
     }
