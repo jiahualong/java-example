@@ -23,7 +23,7 @@ public class TestCompletableFuture {
         }
     }
 
-    //根据product生成随机价格
+    //阻塞的获取产品价格
     private double calculatePrice(String product) {
         delay();
         return random.nextDouble() + product.charAt(1);

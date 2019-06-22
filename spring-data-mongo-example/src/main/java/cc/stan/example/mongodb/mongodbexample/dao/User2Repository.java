@@ -14,5 +14,5 @@ public interface User2Repository extends MongoRepository<User, String> {
     Page<User> findAll(Pageable pageable);
 
 //    @Async
-//    Optional<User> findOneByUserName(String id);
+    Optional<User> findOneByUserName(String id);
 }
