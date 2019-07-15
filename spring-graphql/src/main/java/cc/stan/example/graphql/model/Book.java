@@ -12,5 +12,6 @@ import java.util.List;
 public class Book {
     private Long id;
     private String name;
+    //authors属性从 BookResolver 获取, 不请求authors不获取
     private List<Author> authors;
 }
