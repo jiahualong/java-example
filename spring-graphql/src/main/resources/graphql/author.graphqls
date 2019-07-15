@@ -3,12 +3,19 @@ type Author {
     name: String!
 }
 
+type Book {
+    id: ID!
+    name: String!
+    authors: [Author]
+}
+
 
 type Query {
     queryAuthor: [Author]!
+    queryBook: [Book]!
 }
 
-type Query {_: Int}
+#type Query {_: Int}
 #type Mutation {_: Int}
 #type Subscription {_: Int}
 
