@@ -1,5 +1,9 @@
-sraphql:
+graphql:
   servlet:
+    mapping: /graphql
+    enabled: true
+    corsEnabled: true
+    exception-handlers-enabled: true
     actuator-metrics: true
 altair:
   enabled: true
