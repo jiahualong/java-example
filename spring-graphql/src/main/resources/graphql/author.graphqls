@@ -7,3 +7,8 @@ type Author {
 type Query {
     queryAuthor: [Author]!
 }
+
+type Query {_: Int}
+#type Mutation {_: Int}
+#type Subscription {_: Int}
+

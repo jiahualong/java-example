@@ -1,0 +1,10 @@
+type Book {
+    id: ID!
+    name: String!
+    authors: [Author]!
+}
+
+
+type Query {
+    queryBook: [Book]!
+}

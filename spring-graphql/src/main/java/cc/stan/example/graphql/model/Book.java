@@ -1,13 +1,16 @@
 package cc.stan.example.graphql.model;
 
-public class Author {
+import java.util.List;
 
+public class Book {
     private Long id;
     private String name;
+    private List<Author> authors;
 
-    public Author(Long id, String name) {
+    public Book(Long id, String name, List<Author> authors) {
         this.id = id;
         this.name = name;
+        this.authors = authors;
     }
 
     public Long getId() {
@@ -24,5 +27,13 @@ public class Author {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<Author> getAuthors() {
+        return authors;
+    }
+
+    public void setAuthors(List<Author> authors) {
+        this.authors = authors;
     }
 }
